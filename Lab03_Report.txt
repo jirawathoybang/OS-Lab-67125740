@@ -1,0 +1,17 @@
+======================================================
+COE67-222 Operating Systems - Lab 03 Report
+Name: Jirawat Hoybang
+Student ID: 67125740
+======================================================
+
+1. The Race Condition (Phase 2):
+The update operation (shared_weight = temp + 1) is non-atomic (Read -> Modify -> Write). During time.sleep(), the OS Scheduler switches threads before writing back. Both threads read the same initial value and overwrite each other's updates, causing data corruption and a lower final value.
+
+2. Mutex vs. Semaphore (Phase 3):
+- Mutex: Protects the critical section so only one thread can access the shared buffer at a time.
+- Semaphores: Synchronize execution. 'empty' tracks available spaces to prevent overflow, and 'full' tracks available items to prevent reading an empty buffer.
+- Why Mutex alone fails: Mutex only locks/unlocks access; it cannot count resources or make threads wait when the buffer is full or empty.
+
+3. Deadlock Awareness:
+If swapped to mutex.acquire() then empty.acquire():
+When the buffer is full, the Producer holds the Mutex and blocks waiting for 'empty'. The Consumer needs the Mutex to read data and free up space, but it is blocked by the Producer. Both threads wait for each other indefinitely, causing a Deadlock.
