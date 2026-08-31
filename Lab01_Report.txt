@@ -1,16 +1,16 @@
 ======================================================
 COE67-XXX Operating Systems - Lab 01 Report
-Name: 
-Student ID: 
+Name: Jirawat Hoybang
+Student ID: 67125740
 ======================================================
 
 1. Hardware Baseline:
-- OS Version:
-- Number of CPU Cores:
-- Total RAM:
+- OS Version: Linux 6.8.0-1052-azure
+- Number of CPU Cores: 2
+- Total RAM: 7.76 GB
 
-2. Observation (from htop during stress test):
-[Write your answer here]
+2. Observation:
+During the CPU stress test, the Python script utilized 100% of only ONE CPU core at a time. It did NOT utilize 100% of all available CPU cores simultaneously due to Python's single-thread execution limit (Global Interpreter Lock / GIL).
 
 3. Analysis:
-[Write your answer here]
+In Machine Learning, training pipelines handling large datasets rely heavily on CPU and RAM for data preprocessing and batch loading. Knowing the OS memory limits helps prevent Out-Of-Memory (OOM) errors, while knowing the CPU core count allows engineers to configure parallel processing (e.g., setting num_workers in PyTorch) to maximize efficiency without overloading system resources.
