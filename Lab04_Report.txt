@@ -1,0 +1,28 @@
+======================================================
+COE67-222 Operating Systems - Lab 04 Report
+Name: Jirawat Hoybang
+Student ID: 67125740
+======================================================
+
+1. The Deadlock:
+In the `deadlock_simulation.py` script, the "Circular Wait" condition occurred as follows:
+- Model A acquired GPU 0 first and went to sleep briefly.
+- Model B acquired GPU 1 first and went to sleep briefly.
+- Model A woke up and attempted to acquire GPU 1, but got blocked because GPU 1 was held by Model B.
+- Model B woke up and attempted to acquire GPU 0, but got blocked because GPU 0 was held by Model A.
+- As a result, both models waited indefinitely for each other, causing the execution to freeze.
+
+2. The Solution:
+By changing `deadlock_avoidance.py` so Model B also requests GPU 0 first:
+- Enforcing strict Lock Ordering (Resource Hierarchy) required all threads to request locks in the same sequence (GPU 0 then GPU 1).
+- When Model A acquired GPU 0, Model B was blocked from taking GPU 0 before it could hold GPU 1.
+- This eliminated the circular dependency loop, allowing Model A to complete its task and release resources for Model B.
+
+3. Starvation vs Deadlock:
+Based on the results from `starvation_sim.py`:
+- Difference: The Deadlock script froze completely with zero progress, while the Starvation script ran smoothly to completion. However, resource allocation in Starvation was severely unbalanced (Greedy_Model_A: 23,807 acquisitions, Greedy_Model_B: 23,679 acquisitions, Polite_Model: 297 acquisitions).
+- Aging Technique: Process schedulers use Aging to gradually increase the priority of processes that wait in the system for a long time. This guarantees that the Polite_Model eventually gains high enough priority to acquire resources fairly.
+
+4. Deadlock Detection & Recovery:
+- Detection: The `timeout=2.0` parameter simulated an OS Watchdog timer. If a thread failed to acquire a lock within 2 seconds, the system inferred that a deadlock occurred.
+- Recovery: Upon detection, Model A performed recovery by calling `gpu_0_lock.release()`. Relinquishing GPU 0 allowed Model B to acquire GPU 0, complete its execution, and prevent a total system crash.
