@@ -7,26 +7,26 @@ Student ID: 67125740
 
 1. The Convoy Effect (Phase 2):
 
-In the `cpu_scheduler.py` script, the Convoy Effect occurred as follows:
-- FCFS executed Process P1 first because it arrived at the beginning of the ready queue.
-- Process P1 required 10 CPU time units, causing P2 and P3 to wait even though they required only 2 and 3 units.
-- P2 had to wait 10 time units, while P3 had to wait 12 time units.
-- As a result, FCFS produced an average waiting time of 7.33 units and an average turnaround time of 12.33 units.
-- Round Robin reduced the average waiting time to 4.33 units by allowing P2 and P3 to execute before P1 completed.
+From the results of `cpu_scheduler.py`:
+- FCFS executes processes in the order they arrive, so P1 was executed before P2 and P3.
+- P1 required 10 CPU time units, which caused P2 and P3 to wait even though they required less processing time.
+- P2 waited 10 time units, while P3 waited 12 time units.
+- This caused the Convoy Effect because the shorter processes had to wait for the longer process to finish.
+- Round Robin allowed the processes to take turns using the CPU, reducing the average waiting time to 4.33 units compared with 7.33 units in FCFS.
 
 2. Choosing the Time Quantum:
 
-In the Round Robin scheduling algorithm, the Time Quantum affects both fairness and system performance:
-- Extremely Large Quantum (100): Each process can finish before its time slice expires. As a result, Round Robin behaves like FCFS and may cause the Convoy Effect.
-- Extremely Small Quantum (0.0001): The CPU switches between processes very frequently, causing excessive Context Switching overhead.
-- Performance Impact: Frequent context switching consumes CPU time for saving and restoring process states instead of executing useful tasks.
-- Therefore, the OS must choose a suitable Time Quantum to balance responsiveness, fairness, and scheduling overhead.
+In Round Robin, the Time Quantum determines how long each process can use the CPU before switching to another process.
+- Extremely Large Quantum (100): If the time quantum is larger than the CPU burst time of every process, each process can finish before switching. This makes Round Robin behave like FCFS.
+- Extremely Small Quantum (0.0001): Processes are interrupted and switched very frequently, making their execution less continuous.
+- Context Switching: Frequent switching creates additional overhead because the OS must save and restore process states.
+- From this, I understand that an appropriate Time Quantum helps balance process fairness, responsiveness, and CPU performance.
 
 3. AI Context:
 
 Based on the results from `ai_inference_scheduler.py`:
-- FCFS: User_A_Essay required 10 tokens and completed before User_B_Math, which required only 2 tokens.
-- Round Robin: The AI server generated one token per request before switching to the next request.
-- Fairness: User_B_Math received CPU/GPU processing time without waiting for User_A_Essay to finish all 10 tokens.
-- Execution Result: User_B_Math completed before User_A_Essay in the Round Robin simulation.
-- TTFT Improvement: Iteration-level scheduling allows short requests to start generating tokens earlier, reducing Time To First Token and improving responsiveness for interactive AI applications.
+- In FCFS, User A was processed first and had to finish generating 10 tokens before User B could start.
+- In Round Robin, the AI server gave each user a turn to generate one token before moving to the next request.
+- This allowed both users to receive processing time without requiring User B to wait for User A to finish.
+- User B completed first because the request required only 2 tokens, while User A required 10 tokens.
+- From this experiment, I understand that Round Robin improves fairness and allows short requests to receive their first token earlier, reducing Time To First Token (TTFT) for interactive AI applications.

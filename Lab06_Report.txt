@@ -7,26 +7,26 @@ Student ID: 67125740
 
 1. FIFO vs LRU (Phase 2):
 
-In the `page_replacement.py` script, the LRU algorithm performed better than FIFO because:
-- FIFO (First-In, First-Out) removed the page that had been in RAM the longest, regardless of how recently it was accessed.
-- LRU (Least Recently Used) removed the page that had not been accessed for the longest time.
-- Whenever a page was accessed, LRU updated its position in the list to mark it as the most recently used.
-- With 3 physical memory frames, LRU produced 7 page faults, while the expected FIFO result was 9 page faults.
-- As a result, LRU reduced unnecessary page replacements by considering the recent memory access pattern.
+From the results of `page_replacement.py`:
+- FIFO produced 9 page faults, while LRU produced 7 page faults with 3 memory frames.
+- I observed that FIFO removed Page 2 when Page 5 needed to be loaded because Page 2 had entered RAM first.
+- LRU removed Page 3 instead because Page 3 had not been used for the longest time, while Page 2 had been accessed more recently.
+- When Page 2 was requested again, FIFO experienced another page fault, but LRU could access it directly from RAM.
+- From this experiment, I learned that LRU considers recent page usage, while FIFO only considers the order in which pages entered memory. This helped LRU reduce page faults for the given reference string.
 
 2. Understanding Thrashing (Phase 3):
 
-Based on the results from `ai_thrashing.py`:
-- Definition: Thrashing occurs when the operating system spends excessive time swapping pages between RAM and disk instead of executing processes.
-- Scenario 1 (RAM Access): The processing time was 0.8898 seconds.
-- Scenario 2 (Disk Access): The processing time was 1.9318 seconds.
-- Performance Impact: Scenario 2 was approximately 2.17 times slower than Scenario 1.
-- Reason: Scenario 2 repeatedly opened a file and performed disk read and write operations. These additional operations increased processing time compared with accessing data directly in RAM.
+Based on my observations from `ai_thrashing.py`:
+- Scenario 1 processed data directly in RAM and took 0.8898 seconds.
+- Scenario 2 simulated Thrashing by repeatedly reading and writing data through a disk file. It took 1.9318 seconds.
+- Scenario 2 was approximately 2.17 times slower than Scenario 1.
+- I observed that Scenario 2 had additional file operations, while Scenario 1 processed data directly in RAM.
+- From this experiment, I understand that Thrashing occurs when the system spends too much time moving data between RAM and disk instead of performing useful processing. Repeated disk operations can significantly slow down the system.
 
 3. AI Engineering Decision:
 
-Lowering the `batch_size` in an AI training program helps reduce Thrashing as follows:
-- Memory Reduction: A smaller batch_size processes fewer training samples simultaneously, reducing the amount of RAM required during each training step.
-- Reduced Swapping: When memory usage decreases, the operating system has less need to move pages between RAM and disk.
-- Improved Performance: Reducing excessive disk I/O allows the CPU to spend more time processing the AI model instead of waiting for memory operations.
-- Trade-off: A smaller batch_size may require more training iterations to process the entire dataset, but it can prevent severe performance degradation caused by Thrashing.
+If my AI training program starts Thrashing because RAM is full, I would reduce the `batch_size`.
+- A smaller batch_size means the model processes fewer training samples at the same time.
+- This reduces the amount of RAM required during each training step, leaving more memory available for the system.
+- With lower memory usage, the operating system has less need to move data between RAM and disk.
+- I understand that reducing batch_size does not increase the actual RAM capacity. It helps the AI training program use the available memory more efficiently and reduces the risk of Thrashing.
