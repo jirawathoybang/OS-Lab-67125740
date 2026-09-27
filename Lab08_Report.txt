@@ -1,4 +1,3 @@
-
 ======================================================
 COE67-222 Operating Systems - Lab 08 Report
 Name: Jirawat Hoybang
@@ -16,6 +15,8 @@ From the results of `disk_scheduler.py`:
 
 2. I/O Bound Concept:
 
+Random Access can require the storage device to retrieve data from scattered locations. Sequential Access reads data in order, which usually avoids repeated seeking on an HDD and can make data loading more efficient. My benchmark specifically compared opening 1,000 separate files with reading one packed file; it did not directly measure random disk access.
+
 An I/O Bound process spends more time waiting for input/output operations than performing CPU calculations.
 - When a program needs data from the disk, it must wait for the disk to complete the read operation.
 - During this time, the CPU can execute other processes that are ready to run.
@@ -32,3 +33,4 @@ Based on the results from `ai_dataset_io.py`:
 - When an AI dataset contains millions of separate images, the operating system must perform many file operations, increasing I/O overhead.
 - If the AI training program cannot load data fast enough, the GPU may have to wait instead of processing the next training batch.
 - From this experiment, I understand that packing the images into a sequential dataset format can reduce file operation overhead and improve AI data loading performance.
+- For a large AI data pipeline, loading samples too slowly can leave the GPU waiting between training batches. Grouping data into a packed format can reduce repeated file operations and help keep the GPU supplied with data, although the actual speedup depends on the storage device and data-loading pipeline.

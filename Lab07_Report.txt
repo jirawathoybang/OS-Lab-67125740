@@ -1,4 +1,3 @@
-
 ======================================================
 COE67-222 Operating Systems - Lab 07 Report
 Name: Jirawat Hoybang
@@ -30,3 +29,4 @@ Based on the results from `ai_inference_scheduler.py`:
 - This allowed both users to receive processing time without requiring User B to wait for User A to finish.
 - User B completed first because the request required only 2 tokens, while User A required 10 tokens.
 - From this experiment, I understand that Round Robin improves fairness and allows short requests to receive their first token earlier, reducing Time To First Token (TTFT) for interactive AI applications.
+- If many users send requests at once, taking turns can stop one long request from keeping every shorter request waiting until it finishes. This can make the service feel more responsive, although the simulation shows the order of completion rather than measuring actual TTFT.
