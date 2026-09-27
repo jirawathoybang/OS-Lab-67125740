@@ -1,0 +1,32 @@
+
+======================================================
+COE67-222 Operating Systems - Lab 07 Report
+Name: Jirawat Hoybang
+Student ID: 67125740
+======================================================
+
+1. The Convoy Effect (Phase 2):
+
+In the `cpu_scheduler.py` script, the Convoy Effect occurred as follows:
+- FCFS executed Process P1 first because it arrived at the beginning of the ready queue.
+- Process P1 required 10 CPU time units, causing P2 and P3 to wait even though they required only 2 and 3 units.
+- P2 had to wait 10 time units, while P3 had to wait 12 time units.
+- As a result, FCFS produced an average waiting time of 7.33 units and an average turnaround time of 12.33 units.
+- Round Robin reduced the average waiting time to 4.33 units by allowing P2 and P3 to execute before P1 completed.
+
+2. Choosing the Time Quantum:
+
+In the Round Robin scheduling algorithm, the Time Quantum affects both fairness and system performance:
+- Extremely Large Quantum (100): Each process can finish before its time slice expires. As a result, Round Robin behaves like FCFS and may cause the Convoy Effect.
+- Extremely Small Quantum (0.0001): The CPU switches between processes very frequently, causing excessive Context Switching overhead.
+- Performance Impact: Frequent context switching consumes CPU time for saving and restoring process states instead of executing useful tasks.
+- Therefore, the OS must choose a suitable Time Quantum to balance responsiveness, fairness, and scheduling overhead.
+
+3. AI Context:
+
+Based on the results from `ai_inference_scheduler.py`:
+- FCFS: User_A_Essay required 10 tokens and completed before User_B_Math, which required only 2 tokens.
+- Round Robin: The AI server generated one token per request before switching to the next request.
+- Fairness: User_B_Math received CPU/GPU processing time without waiting for User_A_Essay to finish all 10 tokens.
+- Execution Result: User_B_Math completed before User_A_Essay in the Round Robin simulation.
+- TTFT Improvement: Iteration-level scheduling allows short requests to start generating tokens earlier, reducing Time To First Token and improving responsiveness for interactive AI applications.

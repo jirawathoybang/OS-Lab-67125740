@@ -1,0 +1,34 @@
+
+======================================================
+COE67-222 Operating Systems - Lab 08 Report
+Name: Jirawat Hoybang
+Student ID: 67125740
+======================================================
+
+1. Disk Scheduling (Phase 2):
+
+In the `disk_scheduler.py` script, the SCAN algorithm performed better than FCFS because:
+- FCFS processed disk requests in their arrival order, causing the disk head to move back and forth between different tracks.
+- SCAN (Elevator Algorithm) sorted the requests and moved the disk head in one direction before reversing.
+- Starting at Track 53, SCAN moved upward to Track 199, servicing requests along the way, and then moved downward to service the remaining requests.
+- FCFS produced a total head movement of 640 cylinders, while SCAN required only 331 cylinders.
+- As a result, SCAN reduced the total head movement by 309 cylinders, improving disk scheduling efficiency for this request sequence.
+
+2. I/O Bound Concept:
+
+An I/O Bound process spends most of its time waiting for input/output operations rather than performing CPU computations.
+- CPU Utilization: The CPU is often idle or underutilized while the process waits for disk operations to complete.
+- Reason: Disk access is slower than CPU and RAM operations, so the process cannot continue until the required data becomes available.
+- OS Behavior: The operating system can schedule other ready processes while the I/O Bound process is waiting.
+- Performance Impact: Increasing CPU speed alone may not significantly improve performance because the main bottleneck is the I/O subsystem.
+
+3. AI Industry Connection (Phase 3):
+
+Based on the results from `ai_dataset_io.py`:
+- Test 1 (Separate Files): Reading 1,000 small files took 0.0368 seconds.
+- Test 2 (Packed Dataset): Reading one large packed file took 0.0037 seconds.
+- Performance Improvement: The packed dataset was approximately 9.95 times faster in this experiment.
+- I/O Overhead: Storing 1,000,000 images as separate `.jpg` files requires repeated file opening, metadata lookups, permission checks, and file closing operations.
+- GPU Starvation: When the data loading pipeline cannot deliver images fast enough, the GPU must wait for data instead of performing model training.
+- Solution: Packing images into sequential binary formats such as TFRecord, WebDataset, or HDF5 reduces file operation overhead and enables more efficient sequential reading.
+- As a result, the AI training pipeline can supply data to the GPU more efficiently and reduce I/O bottlenecks.

@@ -1,0 +1,33 @@
+
+======================================================
+COE67-222 Operating Systems - Lab 09 Report
+Name: Jirawat Hoybang
+Student ID: 67125740
+======================================================
+
+1. Inodes and Metadata:
+
+In the `inode_inspector.py` script, the Inode Number identifies the file's metadata within the Linux file system.
+- Observation: The file `dataset_sample.csv` had Inode Number 1576934, a file size of 43 bytes, and permissions of -rw-rw-rw-.
+- Renaming: If the file is renamed using the Linux `mv` command within the same file system, its Inode Number remains unchanged.
+- Reason: Linux stores the file name in a directory entry, while the Inode stores the file's metadata and identifies the underlying file.
+- Therefore, renaming the file changes its directory entry without creating a new Inode.
+
+2. POSIX Permissions:
+
+The required permission is 750.
+- Owner (7): Read (4) + Write (2) + Execute (1).
+- Group (5): Read (4) + Execute (1).
+- Others (0): No permissions.
+- Python Command: os.chmod(filename, 0o750)
+- Result: The file permissions become -rwxr-x--- for a regular file.
+
+3. The AI Context:
+
+Based on the results from `os_security.py` and `ai_weight_protection.py`:
+- OS Security: Setting `secret_config.json` to permission 0o400 allowed only the owner to read the file.
+- Execution Result: When the Python script attempted to append data, the Linux kernel denied the operation and raised a PermissionError.
+- Model Protection: The production model file was protected using os.chmod(weight_file, 0o444), making it read-only for the owner, group, and others.
+- Result: The simulated training script could not overwrite the production model weights.
+- Reason: OS-level permissions are enforced by the kernel across applications, while application-level checks can be bypassed by bugs or incorrectly written scripts.
+- Therefore, file permissions provide an additional security layer that protects valuable AI model assets from accidental modification.
